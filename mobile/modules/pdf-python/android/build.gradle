@@ -1,0 +1,43 @@
+buildscript {
+  repositories {
+    google()
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.chaquo.python:gradle:17.0.0'
+  }
+}
+
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+apply plugin: 'com.chaquo.python'
+
+group = 'expo.modules.pdfpython'
+version = '0.1.0'
+
+android {
+  namespace "expo.modules.pdfpython"
+  defaultConfig {
+    versionCode 1
+    versionName "0.1.0"
+    ndk {
+      // Móviles actuales (arm64) y emuladores (x86_64).
+      abiFilters 'arm64-v8a', 'x86_64'
+    }
+  }
+  lintOptions {
+    abortOnError false
+  }
+}
+
+chaquopy {
+  defaultConfig {
+    version = '3.13'
+    pip {
+      install 'pypdf==6.*'
+    }
+  }
+}

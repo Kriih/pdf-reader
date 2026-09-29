@@ -1,0 +1,31 @@
+# Dependencias
+node_modules/
+
+# Python
+backend/.venv/
+__pycache__/
+*.pyc
+
+# Compilación (se genera con prebuild / gradle)
+mobile/android/
+mobile/ios/
+mobile/modules/pdf-python/android/build/
+mobile/modules/pdf-python/android/.cxx/
+.gradle/
+.kotlin/
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# Claves y variables locales
+*.jks
+*.p8
+*.p12
+*.key
+*.keystore
+.env*.local
+
+# Sistema
+.DS_Store
