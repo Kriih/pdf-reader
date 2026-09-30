@@ -11,6 +11,7 @@ import {
   LayoutSection,
   SizeSection,
 } from '../../components/StyleControls';
+import UpdateSection from '../../components/UpdateSection';
 import { Chip, IconButton, Section } from '../../components/ui';
 import { ask } from '../../reader/notify';
 import { textStyles } from '../../reader/textStyles';
@@ -134,6 +135,8 @@ export default function Settings() {
             <Ionicons name="refresh-outline" size={20} color={theme.text} />
             <Text style={[styles.resetText, { color: theme.text }]}>Restablecer valores por defecto</Text>
           </Pressable>
+
+          <UpdateSection theme={theme} />
         </View>
       </ScrollView>
     </View>

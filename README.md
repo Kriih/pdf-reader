@@ -13,6 +13,7 @@ La interfaz está hecha en **React Native (Expo)** y el tratamiento de los PDFs 
 - Vista de la biblioteca: lista o cuadrícula con las portadas grandes.
 - Estilo de lectura predeterminado: fuente, tamaño, interlineado, alineación, fondo (claro, sepia, oscuro o AMOLED) y paso de página, con vista previa.
 - Botón para restablecer todo a los valores por defecto.
+- **Actualizaciones**: busca la última release en [GitHub](https://github.com/Kriih/pdf-reader/releases) y, si es más nueva, descarga el APK y abre el instalador de Android (la biblioteca se conserva).
 
 **Lector**
 - Tres vistas, en la barra superior:
@@ -36,6 +37,7 @@ mobile/                             App (React Native + Expo)
 ├── library/                        Documentos guardados, progreso, portadas y marcadores
 ├── reader/                         Tema, ajustes, texto ajustado (unión de párrafos, capítulos, paginado)
 ├── components/                     Visor PDF, modo texto, paneles
+├── updates/                        Buscar e instalar actualizaciones desde las releases de GitHub
 ├── modules/pdf-python/             Puente React ⇄ Python
 │   └── android/src/main/python/
 │       └── pdf_tools.py            Lógica de PDFs en Python
@@ -230,3 +232,24 @@ Para instalarlo en el móvil conectado por USB:
 ```bash
 adb install -r ~/Desktop/android-app/mobile/android/app/build/outputs/apk/release/app-release.apk
 ```
+
+### Subir cambios a GitHub
+
+```bash
+cd ~/Desktop/android-app
+git add -A
+git commit -m "Describe el cambio"
+git push
+```
+
+### Publicar una actualización
+
+La app busca actualizaciones en las [releases de GitHub](https://github.com/Kriih/pdf-reader/releases) (Configuración → Actualizaciones):
+compara la etiqueta de la última release con su versión y, si es más nueva, descarga el primer `.apk` adjunto.
+
+1. En `mobile/app.json`, sube `version` (p. ej. `1.1.0` → `1.2.0`) y `android.versionCode` (un número entero, siempre mayor que el anterior).
+2. Crea el APK como arriba, con `npx expo prebuild -p android --clean` (la versión se lee de `app.json`).
+3. Sube los cambios a GitHub.
+4. En GitHub → **Releases → Draft a new release**: etiqueta `v` + la versión (p. ej. `v1.2.0`), escribe las novedades y adjunta el APK (`app-release.apk`, se puede renombrar a `lector-pdf-v1.2.0.apk`).
+
+Las actualizaciones solo se instalan encima si el APK está firmado con la misma clave que el instalado (la de depuración de este proyecto).
