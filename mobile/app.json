@@ -3,7 +3,7 @@
     "name": "Lector PDF",
     "slug": "lector-pdf",
     "scheme": "lectorpdf",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,7 +18,7 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "package": "com.cro.lectorpdf",
-      "versionCode": 2,
+      "versionCode": 3,
       "permissions": [
         "android.permission.REQUEST_INSTALL_PACKAGES"
       ]

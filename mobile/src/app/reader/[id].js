@@ -7,6 +7,7 @@ import { ActivityIndicator, Animated, Platform, Pressable, StyleSheet, Text, Vie
 
 import ContentsSheet from '../../../components/ContentsSheet';
 import PdfViewer from '../../../components/PdfViewer';
+import PositionBar, { POSITION_BAR_HEIGHT } from '../../../components/PositionBar';
 import ReadingSettings from '../../../components/ReadingSettings';
 import ReflowView from '../../../components/ReflowView';
 import { IconButton } from '../../../components/ui';
@@ -166,7 +167,10 @@ export default function Reader() {
   };
 
   const topInset = insets.top + TOP_BAR;
-  const bottomInset = insets.bottom + BOTTOM_BAR + 16;
+  // En las vistas de texto, la barra de posición ocupa el pie: lo demás se aparta.
+  const showPosition = textual && textStarted && !!info?.pages;
+  const barSpace = showPosition ? POSITION_BAR_HEIGHT : 0;
+  const bottomInset = insets.bottom + barSpace + BOTTOM_BAR + 16;
   const slide = (distance) => ({
     opacity: chrome.progress,
     transform: [{ translateY: chrome.progress.interpolate({ inputRange: [0, 1], outputRange: [distance, 0] }) }],
@@ -229,7 +233,7 @@ export default function Reader() {
           insetTop={topInset}
           insetBottom={bottomInset}
           safeTop={insets.top}
-          safeBottom={insets.bottom}
+          safeBottom={insets.bottom + barSpace}
           onScroll={chrome.onScroll}
           onTap={chrome.toggle}
           onTurn={chrome.hide}
@@ -241,6 +245,10 @@ export default function Reader() {
           <ActivityIndicator size="large" color={theme.accent} />
           <Text style={{ color: theme.muted }}>Extrayendo texto…</Text>
         </View>
+      )}
+
+      {showPosition && (
+        <PositionBar page={page} pages={info.pages} bookmarks={bookmarks} theme={theme} safeBottom={insets.bottom} />
       )}
 
       {/* Barra superior: volver + documento + cambio de modo */}
@@ -297,7 +305,11 @@ export default function Reader() {
       {/* Barra inferior flotante: acciones */}
       <Animated.View
         pointerEvents={chrome.visible ? 'box-none' : 'none'}
-        style={[styles.bottomWrap, { bottom: insets.bottom + 12 }, slide(BOTTOM_BAR + insets.bottom + 12)]}
+        style={[
+          styles.bottomWrap,
+          { bottom: insets.bottom + barSpace + 12 },
+          slide(BOTTOM_BAR + insets.bottom + barSpace + 12),
+        ]}
       >
         <View style={[styles.bottomBar, { backgroundColor: theme.surface, borderColor: theme.border }]}>
           <IconButton icon="list-outline" label="Índice" showLabel onPress={() => setSheet('contents')} theme={theme} />
